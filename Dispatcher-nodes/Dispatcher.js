@@ -558,7 +558,7 @@ module.exports = function(RED) {
                 request_set_flow_without_token(node);
             }
 			// Re-install config dest url
-			node.url = bck_url;
+			//node.url = bck_url;
         });
 	}
 
@@ -588,7 +588,7 @@ module.exports = function(RED) {
 			}
             init_auto_dispatch(node);
 			// Re-install config dest url
-	        node.dest_url = bck_url;
+	        //node.dest_url = bck_url;
         });
 	}
 
