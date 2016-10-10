@@ -547,13 +547,17 @@ module.exports = function(RED) {
 		// response to inputs
 		this.on('input', function(msg) {
             node.flows = msg.payload;
-
+			var bck_url = node.url;
+			if(msg.dest_url) { // msg.dest_url override config
+				node.url = msg.dest_url.trim().replace(/\/$/,"");
+			}
             node.status({});
             if(node.is_auth) {
                 request_set_flow_with_token(node);
             } else {
                 request_set_flow_without_token(node);
             }
+			node.url = bck_url;
         });
 	}
 
@@ -577,7 +581,13 @@ module.exports = function(RED) {
 
 		// response to inputs
 		this.on('input', function(msg) {
+			var bck_url = node.dest_url;
+			if(msg.dest_url) { // msg.dest_url override config
+				node.dest_url = msg.dest_url.trim().replace(/^http:\/\/|^https:\/\/|\/$/gi,"");
+			}
             init_auto_dispatch(node);
+			// Re-install config dest url
+	        node.dest_url = bck_url;
         });
 	}
 

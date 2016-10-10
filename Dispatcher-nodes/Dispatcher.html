@@ -152,6 +152,7 @@
     <p>Node to set flows (JSON object) to a NodeRed server</p>
     <p><b>URL</b> is a required input field. All current flows on URL host will be removed.</p>
     <p>Result of set NodeRed flows can be found in <b>msg.payload</b>.</p>
+	<p>if <b>msg.dest_url</b> is set, it will override the the configuration</p>
 </script>
 
 <script type="text/x-red" data-help-name="flow-cloner">
@@ -159,6 +160,7 @@
     <p><b>URL</b> is a required input field, indicates the server which's flows will be replaced. All current flows on URL host will be removed.</p>
     <p>Source NodeRed server URL is fixed to "localhost:1880". If authentication is required, same user name and password will be used in both source and destinaton server.</p>
     <p>Result of dispatching flows can be found in <b>msg.payload</b>.</p>
+	<p>if <b>msg.dest_url</b> is set, it will override the the configuration</p>
 </script>
 
 <script type="text/javascript">
