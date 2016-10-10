@@ -542,6 +542,7 @@ module.exports = function(RED) {
         var node = this;
         node.protocol = config.protocol;
         node.url = config.url.trim().replace(/\/$/,"");
+		node.config_url = node.url;
         node.is_auth = config.auth;
 
 		// response to inputs
@@ -550,6 +551,8 @@ module.exports = function(RED) {
 			var bck_url = node.url;
 			if(msg.dest_url) { // msg.dest_url override config
 				node.url = msg.dest_url.trim().replace(/\/$/,"");
+			} else {
+				node.url = node.config_url;
 			}
             node.status({});
             if(node.is_auth) {
@@ -557,8 +560,6 @@ module.exports = function(RED) {
             } else {
                 request_set_flow_without_token(node);
             }
-			// Re-install config dest url
-			//node.url = bck_url;
         });
 	}
 
@@ -571,6 +572,7 @@ module.exports = function(RED) {
         var node = this;
         node.src_url = LOCALHOST;
         node.dest_url = config.url.trim().replace(/^http:\/\/|^https:\/\/|\/$/gi,"");
+		node.config_url = node.dest_url; // Make a backup of that config
         node.is_auth = config.auth;
         node.sheet = config.sheet;
         node.once = config.once;
@@ -582,13 +584,12 @@ module.exports = function(RED) {
 
 		// response to inputs
 		this.on('input', function(msg) {
-			var bck_url = node.dest_url;
 			if(msg.dest_url) { // msg.dest_url override config
 				node.dest_url = msg.dest_url.trim().replace(/^http:\/\/|^https:\/\/|\/$/gi,"");
+			} else {
+				node.dest_url = node.config_url;
 			}
             init_auto_dispatch(node);
-			// Re-install config dest url
-	        //node.dest_url = bck_url;
         });
 	}
 
